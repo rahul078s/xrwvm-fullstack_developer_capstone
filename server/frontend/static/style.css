@@ -3,6 +3,10 @@ img{
   align-self: center;
 }
 
+.img-container img {
+    object-fit: fill;
+}
+
 .card{
   border: rgb(103, 102, 105) 3px solid;
   display: flex;  
