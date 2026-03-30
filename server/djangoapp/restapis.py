@@ -8,7 +8,8 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 load_dotenv()
 
 backend_url = os.getenv(
-    'backend_url', default="http://localhost:3030")
+    "backend_url", default="http://localhost:3030"
+)
 
 # Make the bundled VADER lexicon available to NLTK.
 NLTK_DATA_DIR = Path(__file__).resolve().parent / "microservices"
@@ -20,9 +21,9 @@ sia = SentimentIntensityAnalyzer()
 
 def get_request(endpoint, **kwargs):
     params = ""
-    if(kwargs):
+    if kwargs:
         for key, value in kwargs.items():
-            params = params + key + "=" + value + "&"
+            params = params + key + "=" + str(value) + "&"
 
     request_url = backend_url + endpoint + "?" + params
 
@@ -30,15 +31,15 @@ def get_request(endpoint, **kwargs):
     try:
         response = requests.get(request_url)
         return response.json()
-    except:
+    except requests.RequestException:
         print("Network exception occurred")
 
 
 def analyze_review_sentiments(text):
     scores = sia.polarity_scores(text)
-    pos = float(scores['pos'])
-    neg = float(scores['neg'])
-    neu = float(scores['neu'])
+    pos = float(scores["pos"])
+    neg = float(scores["neg"])
+    neu = float(scores["neu"])
 
     sentiment = "positive"
     if neg > pos and neg > neu:
@@ -55,5 +56,5 @@ def post_review(data_dict):
         response = requests.post(request_url, json=data_dict)
         print(response.json())
         return response.json()
-    except:
+    except requests.RequestException:
         print("Network exception occurred")

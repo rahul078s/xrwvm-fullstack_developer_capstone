@@ -19,4 +19,3 @@ class CarMakeAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
     search_fields = ("name", "description")
     inlines = [CarModelInline]
-
